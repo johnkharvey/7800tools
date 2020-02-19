@@ -10,7 +10,6 @@
 	;============
 	ORG	$8000
 	;============
-
 L8000:	.byte	$00,$7E,$7E,$00,$00,$7C,$7C,$00,$FF,$00,$FF,$78,$18,$E0,$C0,$99
 	.byte	$00,$00,$18,$00,$00,$78,$00,$FF,$00,$00,$00,$00,$00,$00,$00,$00
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$60,$00,$00,$00
@@ -135,16 +134,22 @@ L8000:	.byte	$00,$7E,$7E,$00,$00,$7C,$7C,$00,$FF,$00,$FF,$78,$18,$E0,$C0,$99
 	;============
 	ORG	$9000
 	;============
-L9000:	BIT	MSTAT	;3
-	BMI	L9000	;2
-L9004:	BIT	MSTAT	;3
-	BPL	L9004	;2
-	RTS		;6
+	; This routine waits for the vertical blanking period to start
+WaitVBLANK:
+WaitVBoff:
+	BIT	MSTAT
+	BMI	WaitVBoff
+WaitVBon:
+	BIT	MSTAT
+	BPL	WaitVBon
+	RTS
 
 	;============
 	ORG	$D000
 	;============
-LD000:	SEI		;2
+	; "This is where the fun begins" - Han Solo
+REALSTART:
+	SEI		;2
 	CLD		;2
 	LDA	#$07	;2
 	STA	INPTCTRL;3
@@ -176,17 +181,17 @@ LD038:	LDA	LE200,X	;4
 	STA	$1A00,X	;5
 	INX		;2
 	BNE	LD038	;2
-	JSR	L9000	;6
+	JSR	WaitVBLANK	;6
 LD044:	BIT	MSTAT	;3
 	BMI	LD044	;2
 	LDA	#$00	;2
 	STA	DPPL	;3
 	LDA	#$1A	;2
 	STA	DPPH	;3
-	JSR	L9000	;6
+	JSR	WaitVBLANK	;6
 	LDA	#$4B	;2
 	STA	CTRL	;3
-LD057:	JSR	L9000	;6
+LD057:	JSR	WaitVBLANK	;6
 	LDA	SWCHB	;4
 	AND	#$03	;2
 	EOR	#$03	;2
@@ -317,7 +322,8 @@ INTERRUPT:
 	;============
 	ORG	$EB49
 	;============
-LEB49:	JMP	LD000	;3
+JMPSTART:
+	JMP	REALSTART	;3
 
 	;============
 	ORG	$F000
@@ -545,7 +551,7 @@ LEB49:	JMP	LD000	;3
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
 START:
-	JMP	LEB49	;3
+	JMP	JMPSTART	;3
 
 	;============
 	ORG	$FF80
