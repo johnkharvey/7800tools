@@ -3,7 +3,7 @@
 ; by John K. Harvey
 ;################################################################
 
-	processor	6502
+	processor 6502
 
 	include	hdr/maria.h
 
@@ -133,156 +133,156 @@ L8000:	.byte	$00,$7E,$7E,$00,$00,$7C,$7C,$00,$FF,$00,$FF,$78,$18,$E0,$C0,$99
 	.byte	$00,$00,$00,$00,$10,$00,$00,$00,$00,$00,$00,$1C,$18,$E0,$76,$00
 
 	;============
-	ORG     $9000
+	ORG	$9000
 	;============
-
-
-L9000: BIT    MSTAT   ;3
-	BMI    L9000   ;2
-L9004: BIT    MSTAT   ;3
-	BPL    L9004   ;2
-	RTS	     ;6
+L9000:	BIT	MSTAT	;3
+	BMI	L9000	;2
+L9004:	BIT	MSTAT	;3
+	BPL	L9004	;2
+	RTS		;6
 
 	;============
-	ORG     $D000
+	ORG	$D000
 	;============
-
 LD000:	SEI		;2
 	CLD		;2
 	LDA	#$07	;2
-	STA	INPTCTRL	;3
+	STA	INPTCTRL;3
 	LDA	#$7F	;2
 	STA	CTRL	;3
 	LDX	#$FF	;2
-	TXS	     ;2
-	STX    $2200   ;4
-	LDA    #$87    ;2
-	STA    P0C2    ;3
-	LDA    #$26    ;2
-	STA    P0C1    ;3
-	LDA    #$36    ;2
-	STA    P0C3    ;3
-	LDA    #$0F    ;2
-	STA    BACKGRND;3
-	STA    $2201   ;4
-	LDA    #$00    ;2
-	STA    INPTCTRL;3
-	STA    OFFSET  ;3
-	LDA    #$80    ;2
-	STA    CHBASE  ;3
-	LDX    #$00    ;2
-LD02F: LDA    LE000,X ;4
-	STA    $1800,X ;5
-	INX	     ;2
-	BNE    LD02F   ;2
-LD038: LDA    LE200,X ;4
-	STA    $1A00,X ;5
-	INX	     ;2
-	BNE    LD038   ;2
-	JSR    L9000   ;6
-LD044: BIT    MSTAT   ;3
-	BMI    LD044   ;2
-	LDA    #$00    ;2
-	STA    DPPL    ;3
-	LDA    #$1A    ;2
-	STA    DPPH    ;3
-	JSR    L9000   ;6
-	LDA    #$4B    ;2
-	STA    CTRL    ;3
-LD057: JSR    L9000   ;6
-	LDA    SWCHB   ;4
-	AND    #$03    ;2
-	EOR    #$03    ;2
-	BEQ    LD073   ;2
-	LDA    #$00    ;2
-	STA    $2201   ;4
-	STA    BACKGRND;3
-	STA    $2202   ;4
-	STA    $2203   ;4
-	JMP    LD057   ;3
-LD073: LDA    SWCHA   ;4
-	BMI    LD08B   ;2
-	LDA    $2200   ;4
-	BPL    LD08B   ;2
-LD07D: CLC	     ;2
-	LDA    $2201   ;4
-	ADC    #$10    ;2
-	STA    $2201   ;4
-	STA    BACKGRND;3
-	JMP    LD0D4   ;3
-LD08B: ROL	     ;2
-	BMI    LD0A2   ;2
-	LDA    $2200   ;4
-	ROL	     ;2
-	BPL    LD0A2   ;2
-LD094: SEC	     ;2
-	LDA    $2201   ;4
-	SBC    #$10    ;2
-	STA    $2201   ;4
-	STA    BACKGRND;3
-	JMP    LD0D4   ;3
-LD0A2: ROL	     ;2
-	BMI    LD0BD   ;2
-	LDA    $2200   ;4
-	ROL	     ;2
-	ROL	     ;2
-	BPL    LD0BD   ;2
-	DEC    $2201   ;6
-	LDA    $2201   ;4
-	STA    BACKGRND;3
-	AND    #$0F    ;2
-	CMP    #$0F    ;2
-	BEQ    LD07D   ;2
-	JMP    LD0D4   ;3
-LD0BD: ROL	     ;2
-	BMI    LD0D4   ;2
-	LDA    $2200   ;4
-	ROL	     ;2
-	ROL	     ;2
-	ROL	     ;2
-	BPL    LD0D4   ;2
-	INC    $2201   ;6
-	LDA    $2201   ;4
-	STA    BACKGRND;3
-	AND    #$0F    ;2
-	BEQ    LD094   ;2
-LD0D4: LDA    SWCHA   ;4
-	AND    #$F0    ;2
-	STA    $2200   ;4
-	LDA    $2201   ;4
-	AND    #$0F    ;2
-	CMP    #$0A    ;2
-	BMI    LD0E8   ;2
-	CLC	     ;2
-	ADC    #$07    ;2
-LD0E8: ADC    #$30    ;2
-	STA    $2203   ;4
-	LDA    $2201   ;4
-	CLC	     ;2
-	AND    #$F0    ;2
-	ROR	     ;2
-	ROR	     ;2
-	ROR	     ;2
-	ROR	     ;2
-	CMP    #$0A    ;2
-	BMI    LD0FE   ;2
-	CLC	     ;2
-	ADC    #$07    ;2
-LD0FE: ADC    #$30    ;2
-	STA    $2202   ;4
-	JMP    LD057   ;3
+	TXS		;2
+	STX	$2200	;4
+	LDA	#$87	;2
+	STA	P0C2	;3
+	LDA	#$26	;2
+	STA	P0C1	;3
+	LDA	#$36	;2
+	STA	P0C3	;3
+	LDA	#$0F	;2
+	STA	BACKGRND;3
+	STA	$2201	;4
+	LDA	#$00	;2
+	STA	INPTCTRL;3
+	STA	OFFSET	;3
+	LDA	#$80	;2
+	STA	CHBASE	;3
+	LDX	#$00	;2
+LD02F:	LDA	LE000,X	;4
+	STA	$1800,X	;5
+	INX		;2
+	BNE	LD02F	;2
+LD038:	LDA	LE200,X	;4
+	STA	$1A00,X	;5
+	INX		;2
+	BNE	LD038	;2
+	JSR	L9000	;6
+LD044:	BIT	MSTAT	;3
+	BMI	LD044	;2
+	LDA	#$00	;2
+	STA	DPPL	;3
+	LDA	#$1A	;2
+	STA	DPPH	;3
+	JSR	L9000	;6
+	LDA	#$4B	;2
+	STA	CTRL	;3
+LD057:	JSR	L9000	;6
+	LDA	SWCHB	;4
+	AND	#$03	;2
+	EOR	#$03	;2
+	BEQ	LD073	;2
+	LDA	#$00	;2
+	STA	$2201	;4
+	STA	BACKGRND;3
+	STA	$2202	;4
+	STA	$2203	;4
+	JMP	LD057	;3
+LD073:	LDA	SWCHA	;4
+	BMI	LD08B	;2
+	LDA	$2200	;4
+	BPL	LD08B	;2
+LD07D:	CLC		;2
+	LDA	$2201	;4
+	ADC	#$10	;2
+	STA	$2201	;4
+	STA	BACKGRND;3
+	JMP	LD0D4	;3
+LD08B:	ROL		;2
+	BMI	LD0A2	;2
+	LDA	$2200	;4
+	ROL		;2
+	BPL	LD0A2	;2
+LD094:	SEC		;2
+	LDA	$2201	;4
+	SBC	#$10	;2
+	STA	$2201	;4
+	STA	BACKGRND;3
+	JMP	LD0D4	;3
+LD0A2:	ROL		;2
+	BMI	LD0BD	;2
+	LDA	$2200	;4
+	ROL		;2
+	ROL		;2
+	BPL	LD0BD	;2
+	DEC	$2201	;6
+	LDA	$2201	;4
+	STA	BACKGRND;3
+	AND	#$0F	;2
+	CMP	#$0F	;2
+	BEQ	LD07D	;2
+	JMP	LD0D4	;3
+LD0BD:	ROL		;2
+	BMI	LD0D4	;2
+	LDA	$2200	;4
+	ROL		;2
+	ROL		;2
+	ROL		;2
+	BPL	LD0D4	;2
+	INC	$2201	;6
+	LDA	$2201	;4
+	STA	BACKGRND;3
+	AND	#$0F	;2
+	BEQ	LD094	;2
+LD0D4:	LDA	SWCHA	;4
+	AND	#$F0	;2
+	STA	$2200	;4
+	LDA	$2201	;4
+	AND	#$0F	;2
+	CMP	#$0A	;2
+	BMI	LD0E8	;2
+	CLC		;2
+	ADC	#$07	;2
+LD0E8:	ADC	#$30	;2
+	STA	$2203	;4
+	LDA	$2201	;4
+	CLC		;2
+	AND	#$F0	;2
+	ROR		;2
+	ROR		;2
+	ROR		;2
+	ROR		;2
+	CMP	#$0A	;2
+	BMI	LD0FE	;2
+	CLC		;2
+	ADC	#$07	;2
+LD0FE:	ADC	#$30	;2
+	STA	$2202	;4
+	JMP	LD057	;3
 
-        ;============
-        ORG     $D4A5
-        ;============
-	; I have no idea why this byte is a $40 in a sea of $FF's
-	.byte	$40
+	;============
+	ORG	$D4A5
+	;============
+BRKroutine
+	; This RTI is in a sea of $FF's because back in the day, encryption was
+	; not figured out fully, so I think we stole a final 128-byte chunk of 
+	; code from another game to get things to work.
+	RTI
 
-        ;============
-        ORG     $E000
-        ;============
+	;============
+	ORG	$E000
+	;============
 
-LE000: .byte	$20,$50,$72,$6F,$67,$72,$61,$6D,$6D,$65,$64,$20,$62,$79,$4A,$6F
+LE000:	.byte	$20,$50,$72,$6F,$67,$72,$61,$6D,$6D,$65,$64,$20,$62,$79,$4A,$6F
 	.byte	$68,$6E,$20,$4B,$2E,$20,$48,$61,$72,$76,$65,$79,$53,$70,$65,$63
 	.byte	$69,$61,$6C,$20,$54,$68,$61,$6E,$6B,$73,$20,$74,$6F,$45,$63,$6B
 	.byte	$68,$61,$72,$64,$20,$53,$74,$6F,$6C,$62,$65,$72,$67,$43,$4F,$4C
@@ -298,7 +298,6 @@ LE000: .byte	$20,$50,$72,$6F,$67,$72,$61,$6D,$6D,$65,$64,$20,$62,$79,$4A,$6F
 	;============
 	ORG	$E200
 	;============
-
 LE200:	.byte	$00,$18,$80,$07,$18,$80,$07,$18,$80,$87,$18,$80,$07,$18,$80,$07
 	.byte	$18,$80,$07,$18,$80,$07,$18,$80,$07,$18,$88,$07,$18,$90,$07,$18
 	.byte	$80,$07,$18,$80,$07,$18,$80,$07,$18,$80,$07,$18,$80,$07,$18,$80
@@ -307,22 +306,22 @@ LE200:	.byte	$00,$18,$80,$07,$18,$80,$07,$18,$80,$87,$18,$80,$07,$18,$80,$07
 	.byte	$80,$07,$18,$80,$07,$18,$80,$07,$18,$80,$07,$18,$80,$01,$18,$80
 
 	;============
-	ORG     $EB1C
+	ORG	$EB1C
 	;============
-
-	; I have no idea why this byte is a $40 in a sea of $FF's
-	.byte   $40
+INTERRUPT:
+	; This RTI is in a sea of $FF's because back in the day, encryption was
+	; not figured out fully, so I think we stole a final 128-byte chunk of
+	; code from another game to get things to work.
+	RTI
 
 	;============
-	ORG     $EB49
+	ORG	$EB49
 	;============
-
 LEB49:	JMP	LD000	;3
 
 	;============
-	ORG     $F000
+	ORG	$F000
 	;============
-
 	.byte	$29,$01,$F0,$08,$A5,$4C,$D0,$04,$A9,$08,$85,$4C
 	.byte	$A5,$84,$29,$10,$F0,$08,$A5,$4D,$D0,$04,$A9,$08,$85,$4D,$60,$A5
 	.byte	$4F,$6A,$B0,$60,$A5,$4C,$F0,$28,$A5,$4A,$D0,$0E,$EE,$51,$25,$EE
@@ -534,10 +533,8 @@ LEB49:	JMP	LD000	;3
 	.byte	$00,$00,$00,$00
 
 	;============
-	ORG     $FF00
+	ORG	$FF00
 	;============
-
-	.byte	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -545,7 +542,7 @@ LEB49:	JMP	LD000	;3
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-	.byte	$00
+	.byte	$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
 START:
 	JMP	LEB49	;3
@@ -553,8 +550,7 @@ START:
 	;============
 	ORG	$FF80
 	;============
-
-        ; reserved for encryption
+	; reserved for encryption
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00
@@ -574,14 +570,14 @@ START:
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00
 	.byte	$00,$00,$00,$00,$00,$00,$00,$00
 
-        ORG     $FFF8
-        .byte   $FF     ; Region verification
-        .byte   $87     ; Starts at $8000
+	;============
+	ORG	$FFF8
+	;============
+	.byte	$FF	; Region verification
+	.byte	$87	; Starts at $8000
 
-	;.word   INTERRUPT
-	.byte	$1C,$EB
+	.word	INTERRUPT
 
 	.word	START
 
-	;.word	BRKroutine
-	.byte	$A5,$D4
+	.word	BRKroutine
