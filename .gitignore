@@ -1,2 +1,4 @@
 bin/
+check/
 untracked/
+.DS_Store

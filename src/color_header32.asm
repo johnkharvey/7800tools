@@ -72,4 +72,4 @@
 	.byte $20					; (space)
 	.byte $48,$45,$52,$45			; Here
 
-	incbin color.bin
+	incbin bin/color.bin

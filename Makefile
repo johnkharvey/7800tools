@@ -27,12 +27,13 @@ SDL2=/Library/Frameworks/SDL2.framework/SDL2
 WGET=/usr/local/bin/wget
 TAR=/usr/bin/tar
 UNZIP=/usr/bin/unzip
+MD5=/sbin/md5
 
 
 #===============
 # Build Targets
 #===============
-.PHONY:	all run clean megaclean setup
+.PHONY:	all check run clean megaclean setup
 
 all:	bin/color.a78
 
@@ -64,9 +65,28 @@ bin/color.bin:	src/color.asm ${DASM}
 
 bin/color.a78:	src/color_header32.asm bin/color.bin ${7800SIGN}
 	echo "\n###### Signing Bin file... ######"
-	${7800SIGN} bin/color.bin
+	${7800SIGN} -w bin/color.bin
 	echo "\n\n###### Creating a78 file... ######"
 	${DASM} src/color_header32.asm -f3 -obin/color.a78
+
+check:	bin/color.a78 2001_roms/20010804_color01.a78
+	mkdir -p check
+	# The last 128 bytes (save for the last 6) are random due to digital signing.  Let's remove that and test the rest
+	split -b 32768 bin/color.a78 check/new.check.
+	split -b 32768 2001_roms/20010804_color01.a78 check/base.check.
+	# Do a diff
+	diff -b check/new.check.aa check/base.check.aa
+	# Some MD5 sums for good measure
+	${MD5} check/new.check.aa
+	${MD5} check/base.check.aa
+	# Now, let's check the remaining 6 vector bytes
+	dd if=check/new.check.ab of=check/new.check.ac bs=1 skip=122
+	dd if=check/base.check.ab of=check/base.check.ac bs=1 skip=122
+	# Do a diff
+	diff -b check/new.check.ac check/base.check.ac
+	# Some MD5 sums for good measure
+	${MD5} check/new.check.ac
+	${MD5} check/base.check.ac
 
 
 #===============
@@ -108,9 +128,9 @@ run:	${A7800}
 # Clean Targets
 #===============
 clean:
-	rm -f color.bin
-	rm -f color.a78
-	rm -rf tmp
+	rm -f bin/color.bin
+	rm -f bin/color.a78
+	rm -rf check
 
 megaclean:	clean
 	brew uninstall wget
