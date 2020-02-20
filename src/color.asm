@@ -7,6 +7,77 @@
 
 	include	hdr/maria.h
 
+        SEG.U	RAMdata
+
+;################################################################
+; RAM definitions
+;################################################################
+
+;=========================
+; Zero-page RAM ($40-$FF)
+;=========================
+	;----------
+        ORG     $40
+	;----------
+; Zero-page Equates go here
+	;------------
+        ; End of Zero-Page Memory
+	; (For origin reverse-indexed trapping)
+	;----------
+        ORG     $FF
+	;----------
+;===================
+; End Zero-page RAM
+;===================
+
+
+;==================================
+; Memory Section 1 - ($1800-$203F)
+;==================================
+	;------------
+        ORG     $1800
+	;------------
+; $1800 has $E000-$E0FF
+        ;------------
+        ORG     $1A00
+        ;------------
+; $1A00 has $E200-$E2FF
+	;------------
+        ; End of Memory Section 1
+	; (for origin reverse-indexed trapping)
+	;------------
+        ORG     $203F
+	;------------
+;======================
+; End Memory Section 1 
+;======================
+
+
+;==================================
+; Memory Section 2 - ($2200-$203F)
+;==================================
+	;------------
+        ORG     $2200
+	;------------
+SWCHA_SAVE	ds	1	;	$2200
+BGCOLOR		ds	1	;	$2201
+	;------------
+        ; End of Memory Section 2 
+	; (for origin reverse-indexed trapping)
+	;------------
+        ORG     $27FF
+	;------------
+;======================
+; End Memory Section 2 
+;======================
+
+
+;################################################################
+; Code begins here
+;################################################################
+
+        SEG	CODE
+
 	;============
 	ORG	$8000
 	;============
@@ -157,7 +228,7 @@ REALSTART:
 	STA	CTRL	;3
 	LDX	#$FF	;2
 	TXS		;2
-	STX	$2200	;4
+	STX	SWCHA_SAVE	;4
 	LDA	#$87	;2
 	STA	P0C2	;3
 	LDA	#$26	;2
@@ -166,7 +237,7 @@ REALSTART:
 	STA	P0C3	;3
 	LDA	#$0F	;2
 	STA	BACKGRND;3
-	STA	$2201	;4
+	STA	BGCOLOR	;4
 	LDA	#$00	;2
 	STA	INPTCTRL;3
 	STA	OFFSET	;3
@@ -197,40 +268,40 @@ LD057:	JSR	WaitVBLANK	;6
 	EOR	#$03	;2
 	BEQ	LD073	;2
 	LDA	#$00	;2
-	STA	$2201	;4
+	STA	BGCOLOR	;4
 	STA	BACKGRND;3
 	STA	$2202	;4
 	STA	$2203	;4
 	JMP	LD057	;3
 LD073:	LDA	SWCHA	;4
 	BMI	LD08B	;2
-	LDA	$2200	;4
+	LDA	SWCHA_SAVE	;4
 	BPL	LD08B	;2
 LD07D:	CLC		;2
-	LDA	$2201	;4
+	LDA	BGCOLOR	;4
 	ADC	#$10	;2
-	STA	$2201	;4
+	STA	BGCOLOR	;4
 	STA	BACKGRND;3
 	JMP	LD0D4	;3
 LD08B:	ROL		;2
 	BMI	LD0A2	;2
-	LDA	$2200	;4
+	LDA	SWCHA_SAVE	;4
 	ROL		;2
 	BPL	LD0A2	;2
 LD094:	SEC		;2
-	LDA	$2201	;4
+	LDA	BGCOLOR	;4
 	SBC	#$10	;2
-	STA	$2201	;4
+	STA	BGCOLOR	;4
 	STA	BACKGRND;3
 	JMP	LD0D4	;3
 LD0A2:	ROL		;2
 	BMI	LD0BD	;2
-	LDA	$2200	;4
+	LDA	SWCHA_SAVE	;4
 	ROL		;2
 	ROL		;2
 	BPL	LD0BD	;2
-	DEC	$2201	;6
-	LDA	$2201	;4
+	DEC	BGCOLOR	;6
+	LDA	BGCOLOR	;4
 	STA	BACKGRND;3
 	AND	#$0F	;2
 	CMP	#$0F	;2
@@ -238,20 +309,20 @@ LD0A2:	ROL		;2
 	JMP	LD0D4	;3
 LD0BD:	ROL		;2
 	BMI	LD0D4	;2
-	LDA	$2200	;4
+	LDA	SWCHA_SAVE	;4
 	ROL		;2
 	ROL		;2
 	ROL		;2
 	BPL	LD0D4	;2
-	INC	$2201	;6
-	LDA	$2201	;4
+	INC	BGCOLOR	;6
+	LDA	BGCOLOR	;4
 	STA	BACKGRND;3
 	AND	#$0F	;2
 	BEQ	LD094	;2
 LD0D4:	LDA	SWCHA	;4
 	AND	#$F0	;2
-	STA	$2200	;4
-	LDA	$2201	;4
+	STA	SWCHA_SAVE	;4
+	LDA	BGCOLOR	;4
 	AND	#$0F	;2
 	CMP	#$0A	;2
 	BMI	LD0E8	;2
@@ -259,7 +330,7 @@ LD0D4:	LDA	SWCHA	;4
 	ADC	#$07	;2
 LD0E8:	ADC	#$30	;2
 	STA	$2203	;4
-	LDA	$2201	;4
+	LDA	BGCOLOR	;4
 	CLC		;2
 	AND	#$F0	;2
 	ROR		;2
