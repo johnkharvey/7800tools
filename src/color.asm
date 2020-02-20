@@ -42,8 +42,12 @@
 	ORG     $1880
 	;------------
 DLRam:
-DL_Empty:	ds	2	;	$1880-$1881
-DL_1:		ds	6	;	$1882-$1887
+DL_Empty:	ds	8	;	$1880-$1887 (but only uses 2 bytes)
+DL_1:		ds	8	;	$1888-$188F
+DL_2:		ds	8	;	$1890-$1897
+DL_3:		ds	8	;	$1898-$189F
+DL_4:		ds	8	;	$18A0-$18A7
+DL_5:		ds	8	;	$18A8-$18AF
 
         ;------------
         ORG     $1A00
@@ -406,8 +410,8 @@ DLL_NTSC:
 	.byte	$07,#>DL_Empty,#<DL_Empty
 	.byte	$07,#>DL_Empty,#<DL_Empty
 
-	.byte	$07,$18,$88
-	.byte	$07,$18,$90
+	.byte	$07,#>DL_1,#<DL_1
+	.byte	$07,#>DL_2,#<DL_2
 
 	.byte	$07,#>DL_Empty,#<DL_Empty
 	.byte	$07,#>DL_Empty,#<DL_Empty
@@ -419,13 +423,13 @@ DLL_NTSC:
 	.byte	$07,#>DL_Empty,#<DL_Empty
 	.byte	$07,#>DL_Empty,#<DL_Empty
 
-	.byte	$07,$18,$A8
+	.byte	$07,#>DL_5,#<DL_5
 
 	.byte	$07,#>DL_Empty,#<DL_Empty
 	.byte	$07,#>DL_Empty,#<DL_Empty
 
-	.byte	$07,$18,$98
-	.byte	$07,$18,$A0
+	.byte	$07,#>DL_3,#<DL_3
+	.byte	$07,#>DL_4,#<DL_4
 
 	.byte	$07,#>DL_Empty,#<DL_Empty
 	.byte	$07,#>DL_Empty,#<DL_Empty
