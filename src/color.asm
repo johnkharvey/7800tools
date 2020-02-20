@@ -38,6 +38,12 @@
         ORG     $1800
 	;------------
 ; $1800 has $E000-$E0FF
+;1800
+;1801
+;180E
+;181C
+;182D
+;183D
 	;------------
 	ORG     $1880
 	;------------
@@ -72,6 +78,9 @@ DLLRam:
 	;------------
 SWCHA_SAVE	ds	1	;	$2200
 BGCOLOR		ds	1	;	$2201
+LeftColorNum	ds	1	;	$2202
+RightColorNum	ds	1	;	$2203
+
 	;------------
         ; End of Memory Section 2 
 	; (for origin reverse-indexed trapping)
@@ -368,32 +377,48 @@ BRKroutine
 	;============
 	ORG	$E000
 	;============
-
-LE000:	.byte	$20,$50,$72,$6F,$67,$72,$61,$6D,$6D,$65,$64,$20,$62,$79,$4A,$6F
-	.byte	$68,$6E,$20,$4B,$2E,$20,$48,$61,$72,$76,$65,$79,$53,$70,$65,$63
-	.byte	$69,$61,$6C,$20,$54,$68,$61,$6E,$6B,$73,$20,$74,$6F,$45,$63,$6B
-	.byte	$68,$61,$72,$64,$20,$53,$74,$6F,$6C,$62,$65,$72,$67,$43,$4F,$4C
-	.byte	$4F,$52,$20,$3D,$20,$24
+LE000:
+; $1800
+	.byte	" "
+; $1801
+	.byte	"Programmed by"
+; $180E
+	.byte	"John K. Harvey"
+; $181C
+	.byte	"Special Thanks to"
+; $182D
+	.byte	"Eckhard Stolberg"
+; $183D
+	.byte	"COLOR = $"
 
         ;============
         ORG     $E080
         ;============
 Code_DLRam:
-	.byte	$00,$60,$18,$1F
-	.byte	$00,$00,$00,$00
-	.byte	$01,$60,$18,$13
-	.byte	$32,$00,$00,$00
-	.byte	$0E,$60,$18,$12
-	.byte	$32,$00,$00,$00
-	.byte	$1C,$60,$18,$0F
-	.byte	$32,$00,$00,$00
-	.byte	$2D,$60,$18,$10
-	.byte	$32,$00,$00,$00
-	.byte	$3D,$60,$18,$17
-	.byte	$32,$02,$60,$22
-	.byte	$1F,$55,$03,$60
-	.byte	$22,$1F,$59
-	.byte	$00,$00
+	.byte	$00,$60,$18,$1F,$00 ; header
+	.byte	$00,$00 ; stop drawing
+	.byte	$00 ; extra for 8 byte ALIGN
+
+	.byte	$01,$60,$18,$13,$32 ; header
+	.byte	$00,$00 ; stop drawing
+	.byte	$00 ; extra for 8 byte ALIGN
+
+	.byte	$0E,$60,$18,$12,$32
+	.byte	$00,$00 ; stop drawing
+	.byte	$00 ; extra for 8 byte ALIGN
+
+	.byte	$1C,$60,$18,$0F,$32
+	.byte	$00,$00 ; stop drawing
+	.byte	$00 ; extra for 8 byte ALIGN
+
+	.byte	$2D,$60,$18,$10,$32
+	.byte	$00,$00 ; stop drawing
+	.byte	$00 ; extra for 8 byte ALIGN
+
+	.byte	$3D,$60,$18,$17,$32
+	.byte	#<LeftColorNum, $60,#>LeftColorNum, $1F,$55
+	.byte	#<RightColorNum,$60,#>RightColorNum,$1F,$59
+	.byte	$00,$00 ; stop drawing
 
 	;============
 	ORG	$E200
