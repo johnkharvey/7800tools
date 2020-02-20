@@ -42,6 +42,9 @@
 	ORG     $1880
 	;------------
 DLRam:
+DL_Empty:	ds	2	;	$1880-$1881
+DL_1:		ds	6	;	$1882-$1887
+
         ;------------
         ORG     $1A00
         ;------------
@@ -393,46 +396,46 @@ Code_DLRam:
 	;============
 DLL_NTSC:
 
-        ;.byte   $00,#>DL_Empty,#<DL_Empty       ; 25 blank lines that can't be seen
-        ;.byte   $07,#>DL_Empty,#<DL_Empty       ; on most NTSC TVs anyway
-        ;.byte   $07,#>DL_Empty,#<DL_Empty
-        ;.byte   $07,#>DL_Empty,#<DL_Empty
-        ;.byte   $4F,#>DL_1,#<DL_1       ; [16] points to ScanLine DL
-        ;.byte   $4F,#>DL_2,#<DL_2       ; [32]
+	.byte   $00,#>DL_Empty,#<DL_Empty	; 25 blank lines that can't be seen
+	.byte	$07,#>DL_Empty,#<DL_Empty	; on most NTSC TVs anyway
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$87,#>DL_Empty,#<DL_Empty	; throws an interrupt
 
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
 
-	.byte	$00,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$87,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
 	.byte	$07,$18,$88
 	.byte	$07,$18,$90
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
+
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+
 	.byte	$07,$18,$A8
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
+
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+
 	.byte	$07,$18,$98
 	.byte	$07,$18,$A0
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$07,$18,$80
-	.byte	$01,$18,$80
+
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+	.byte	$07,#>DL_Empty,#<DL_Empty
+
+	.byte	$01,#>DL_Empty,#<DL_Empty
 
 	;============
 	ORG	$EB1C
